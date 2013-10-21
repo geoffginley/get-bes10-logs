@@ -1,3 +1,48 @@
+ <#
+ 
+.SYNOPSIS
+    Collects BlackBerry Logs for 1 or more days
+ 
+.DESCRIPTION
+    Collects, then compresses BlackBerry Enterprise Service 10 Logs for 1 or more days. If an end date is specified as a parameter all logs from begindate to endate will be collected. They will then be compressed.
+ 
+.PARAMETER $BeginDate
+    The convention for this date is yyyyMMdd e.g 20130725. The default value is the current date.
+ 
+.PARAMETER $EndDate
+    The convention for this date is yyyyMMdd e.g 20130725. There is no default value and a single date will be used (begindate)
+ 
+.PARAMETER $DestinationDirectory
+    This is a string of the directory where the logs will be copied e.g c:\temp. The default value is "${env:TEMP}\bb_logs"
+ 
+.PARAMETER $IncludeInstallLogs
+    This is a boolean value of $true or $false. The default is $false
+ 
+.PARAMETER $logZip
+    This is a boolean value of $true or $false. The default is $true
+ 
+.EXAMPLE
+    Get-BackupBESLogs
+ 
+.EXAMPLE
+    Get-BackupBESLogs -BeginDate 20130725
+ 
+    This will collect the logs only for the
+ 
+.EXAMPLE
+    Get-BackupBESLogs -BeginDate 20130725 -enddate 20130725
+ 
+.EXAMPLE
+    Get-BackupBESLogs -BeginDate 20130725 -enddate 20130725 -logZip $false
+ 
+.EXAMPLE
+    Get-BackupBESLogs -IncludeInstallLogs
+ 
+.NOTES
+    Author: Geoff Ginley
+ 
+#>
+
 $command1 = {get-itemproperty -ErrorAction Stop 'HKLM:\SOFTWARE\Wow6432Node\Research In Motion\BlackBerry Enterprise Service\Logging Info' | select -ExpandProperty LogRoot }
 
 Function Get-BesLogs(){
@@ -107,50 +152,5 @@ Function Get-BesLogs(){
 	if($logZip){
 		zipLogs ($logDir)
 	}
- 
-    <#
- 
-.SYNOPSIS
-    Collects BlackBerry Logs for 1 or more days
- 
-.DESCRIPTION
-    Collects, then compresses BlackBerry Enterprise Service 10 Logs for 1 or more days. If an end date is specified as a parameter all logs from begindate to endate will be collected. They will then be compressed.
- 
-.PARAMETER $BeginDate
-    The convention for this date is yyyyMMdd e.g 20130725. The default value is the current date.
- 
-.PARAMETER $EndDate
-    The convention for this date is yyyyMMdd e.g 20130725. There is no default value and a single date will be used (begindate)
- 
-.PARAMETER $DestinationDirectory
-    This is a string of the directory where the logs will be copied e.g c:\temp. The default value is "${env:TEMP}\bb_logs"
- 
-.PARAMETER $IncludeInstallLogs
-    This is a boolean value of $true or $false. The default is $false
- 
-.PARAMETER $logZip
-    This is a boolean value of $true or $false. The default is $true
- 
-.EXAMPLE
-    Get-BackupBESLogs
- 
-.EXAMPLE
-    Get-BackupBESLogs -BeginDate 20130725
- 
-    This will collect the logs only for the
- 
-.EXAMPLE
-    Get-BackupBESLogs -BeginDate 20130725 -enddate 20130725
- 
-.EXAMPLE
-    Get-BackupBESLogs -BeginDate 20130725 -enddate 20130725 -logZip $false
- 
-.EXAMPLE
-    Get-BackupBESLogs -IncludeInstallLogs
- 
-.NOTES
-    Author: Geoff Ginley
- 
-#>
  
 }
